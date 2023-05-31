@@ -26,4 +26,14 @@ class ChatStoreRequest extends FormRequest
             'username' => 'required|max:255',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'O título do chat é um campo obrigatório.',
+            'title.max' => 'O tamanho máximo do titulo é de 255 caracteres.',
+            'username.required' => 'O seu campo nome de usuário é obrigatório.',
+            'username.max' => 'O tamanho máximo do nome de usuário é de 255 caracteres.',
+        ];
+    }
 }

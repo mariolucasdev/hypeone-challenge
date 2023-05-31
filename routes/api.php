@@ -19,6 +19,11 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+
 Route::post('/chat', [ChatController::class, 'start']);
+
+Route::get('/chat/{id}/info', [ChatController::class], 'info');
+
+Route::get('/chat/{id}/messages', [ChatController::class], 'messages');
 
 Route::put('/chat/{id}/close', [ChatController::class, 'close']);

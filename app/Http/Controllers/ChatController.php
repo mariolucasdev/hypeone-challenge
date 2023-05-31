@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ChatStoreRequest;
 use App\Models\Chat;
+use App\Models\Message;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller
 {
@@ -17,16 +19,11 @@ class ChatController extends Controller
      */
     public function start(ChatStoreRequest $request): JsonResponse
     {
-        $validated = $request->validated();
+        $validated = Validator::make($request->all(), $request->rules());
 
-        if ($validated) {
+        $chat = Chat::create($request->all());
 
-            $chat = Chat::create($request->all());
-
-            return response()->json($chat, 201);
-        }
-
-        return response()->json(['error' => 'Não foi possível iniciar o atendimento.'], 500);
+        return response()->json($chat, 201);
     }
 
     /**
@@ -39,18 +36,12 @@ class ChatController extends Controller
     {
         $chat = Chat::find($id);
 
-        $closed = $chat->update(['closed' => true]);
+        if ($chat) {
+            $chat->update(['closed' => true]);
 
-        if ($closed) {
             return response()->json($chat, 200);
         }
 
-        return response()->json(
-            [
-                'error' => 'Não foi possível finalizar o atendimento.',
-                'chat' => $chat
-            ],
-            500
-        );
+        return response()->json(['error' => 'Chat não encontrado.'], 404);
     }
 }
