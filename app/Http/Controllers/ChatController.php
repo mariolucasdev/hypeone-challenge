@@ -27,6 +27,24 @@ class ChatController extends Controller
     }
 
     /**
+     * Get Chat Info
+     *
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function details(string $id): JsonResponse
+    {
+        $chat = Chat::find($id);
+
+        if ($chat) {
+
+            return response()->json($chat, 200);
+        }
+
+        return response()->json(['error' => 'Chat não encontrado.'], 404);
+    }
+
+    /**
      * Close Chat Session
      *
      * @param string $id
@@ -37,6 +55,7 @@ class ChatController extends Controller
         $chat = Chat::find($id);
 
         if ($chat) {
+
             $chat->update(['closed' => true]);
 
             return response()->json($chat, 200);

@@ -54,4 +54,32 @@ class ChatTest extends TestCase
         $response = $this->put('/api/chat/1000/close');
         $response->assertStatus(404);
     }
+
+    public function test_get_chat_details(): void
+    {
+        $response = $this->get('/api/chat/3/details');
+        $response->assertJson(
+            fn (AssertableJson $json) =>
+            $json->has('id')
+                ->has('title')
+                ->has('username')
+                ->has('closed')
+                ->has('created_at')
+                ->has('updated_at')
+        );
+
+        $response->assertStatus(200);
+    }
+
+    public function test_fail_get_chat_details(): void
+    {
+        // Added not exists id
+        $response = $this->get('/api/chat/10000/details');
+        $response->assertJson(
+            fn (AssertableJson $json) =>
+            $json->has('error')
+        );
+
+        $response->assertStatus(404);
+    }
 }
