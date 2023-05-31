@@ -36,12 +36,21 @@ class ChatController extends Controller
     {
         $chat = Chat::find($id);
 
-        if ($chat) {
+        return ($chat) ?
+            response()->json($chat, 200) :
+            response()->json(['error' => 'Chat não encontrado.'], 404);
+    }
 
-            return response()->json($chat, 200);
-        }
-
-        return response()->json(['error' => 'Chat não encontrado.'], 404);
+    /**
+     * Get chat messages
+     *
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function messages(string $id): JsonResponse
+    {
+        $messages = Message::where('chat_id', $id)->get();
+        return response()->json($messages, 200);
     }
 
     /**

@@ -82,4 +82,12 @@ class ChatTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    public function test_get_chat_messages(): void
+    {
+        // Added not exists id
+        $response = $this->get('/api/chat/1/messages');
+        $response->assertJsonIsArray();
+        $response->assertStatus(200);
+    }
 }

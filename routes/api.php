@@ -25,4 +25,6 @@ Route::get('/chat/{id}/details', [ChatController::class, 'details']);
 
 Route::get('/chat/{id}/messages', [ChatController::class, 'messages']);
 
+Route::post('/chat/{id}/message', [ChatController::class, 'message']);
+
 Route::put('/chat/{id}/close', [ChatController::class, 'close']);
