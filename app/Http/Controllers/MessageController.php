@@ -22,6 +22,12 @@ class MessageController extends Controller
         return response()->json($messages, 200);
     }
 
+    /**
+     * Store messages on database
+     *
+     * @param MessageStoreRequest $request
+     * @return JsonResponse
+     */
     public function store(MessageStoreRequest $request): JsonResponse
     {
         $validated = Validator::make($request->all(), $request->rules());
