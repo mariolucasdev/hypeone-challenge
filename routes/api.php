@@ -20,3 +20,5 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('/chat', [ChatController::class, 'start']);
+
+Route::put('/chat/{id}/close', [ChatController::class, 'close']);
