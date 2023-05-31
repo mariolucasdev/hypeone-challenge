@@ -4,6 +4,8 @@ namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -12,9 +14,12 @@ class ChatTest extends TestCase
 
     public function test_the_start_new_chat(): void
     {
+        $user = (array) User::find(1);
+        Auth::attempt($user);
+
         $chatData = [
+            'title' => 'Test Passed',
             'username' => 'Mário Lucas',
-            'title' => 'Test Passed'
         ];
 
         $response = $this->post('/api/chat', $chatData);
@@ -44,7 +49,7 @@ class ChatTest extends TestCase
 
     public function test_close_chat(): void
     {
-        $response = $this->put('/api/chat/3/close');
+        $response = $this->put('/api/chat/1/close');
         $response->assertStatus(200);
     }
 
@@ -57,7 +62,7 @@ class ChatTest extends TestCase
 
     public function test_get_chat_details(): void
     {
-        $response = $this->get('/api/chat/3/details');
+        $response = $this->get('/api/chat/1/details');
         $response->assertJson(
             fn (AssertableJson $json) =>
             $json->has('id')

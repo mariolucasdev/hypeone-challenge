@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\channelChat;
 use App\Http\Requests\MessageStoreRequest;
 use App\Models\Message;
 use Illuminate\Http\JsonResponse;
@@ -19,6 +20,7 @@ class MessageController extends Controller
     public function index(string $chatId): JsonResponse
     {
         $messages = Message::where('chat_id', $chatId)->get();
+
         return response()->json($messages, 200);
     }
 
@@ -31,6 +33,8 @@ class MessageController extends Controller
     public function store(MessageStoreRequest $request): JsonResponse
     {
         $validated = Validator::make($request->all(), $request->rules());
+
+        broadcast(new channelChat($request->content, $request->username, $request->chat_id));
 
         $message = Message::create($request->all());
 

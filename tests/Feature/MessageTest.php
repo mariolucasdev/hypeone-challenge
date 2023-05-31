@@ -18,7 +18,7 @@ class MessageTest extends TestCase
     public function test_store_chat_message(): void
     {
         $messageData = [
-            "chat_id" => 3,
+            "chat_id" => 1,
             "content" => "Test Passed",
             "username" => "Mário Lucas"
         ];

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\channelChat;
 use App\Http\Requests\ChatStoreRequest;
 use App\Models\Chat;
 use App\Models\Message;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ChatController extends Controller
@@ -23,12 +25,20 @@ class ChatController extends Controller
 
         $chat = Chat::create($request->all());
 
+        $request->session()->put([
+            'chat_id' => $chat->id,
+            'title' => $chat->title,
+            'name' => $chat->username
+        ]);
+
+        broadcast(new channelChat($chat->title, $chat->username, $chat->id));
+
         return response()->json($chat, 201);
     }
 
     /**
      * Get Chat Info
-     *
+     *'
      * @param string $id
      * @return JsonResponse
      */

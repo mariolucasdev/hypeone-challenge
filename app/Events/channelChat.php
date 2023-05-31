@@ -35,7 +35,7 @@ class channelChat implements ShouldBroadcast
         return [
             'message' => $this->message,
             'user' => $this->user,
-            'chatId' => $chatId
+            'chatId' => $this->chatId
         ];
     }
 
