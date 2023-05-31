@@ -20,14 +20,17 @@ class channelChat implements ShouldBroadcast
 
     public string $chatId;
 
+    public string $createdAt;
+
     /**
      * Create a new event instance.
      */
-    public function __construct(string $message, string $user, string $chatId)
+    public function __construct(string $message, string $user, string $chatId, string $createdAt)
     {
         $this->message = $message;
         $this->user = $user;
         $this->chatId = $chatId;
+        $this->createdAt = $createdAt;
     }
 
     public function broadcastWith(): array
@@ -35,7 +38,8 @@ class channelChat implements ShouldBroadcast
         return [
             'message' => $this->message,
             'user' => $this->user,
-            'chatId' => $this->chatId
+            'chatId' => $this->chatId,
+            'createdAt' => $this->createdAt,
         ];
     }
 

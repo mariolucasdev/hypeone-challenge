@@ -21,6 +21,10 @@ class MessageController extends Controller
     {
         $messages = Message::where('chat_id', $chatId)->get();
 
+        foreach ($messages as $message) {
+            broadcast(new channelChat($message->content, $message->username, $message->chat_id, $message->created_at));
+        }
+
         return response()->json($messages, 200);
     }
 
@@ -34,9 +38,9 @@ class MessageController extends Controller
     {
         $validated = Validator::make($request->all(), $request->rules());
 
-        broadcast(new channelChat($request->content, $request->username, $request->chat_id));
-
         $message = Message::create($request->all());
+
+        broadcast(new channelChat($request->content, $request->username, $request->chat_id, $message->created_at));
 
         return response()->json($message, 201);
     }
