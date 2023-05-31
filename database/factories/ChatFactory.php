@@ -18,6 +18,7 @@ class ChatFactory extends Factory
     {
         return [
             'title' => $this->faker->name(),
+            'username' => $this->faker->name(),
             'closed' => rand(2, 10) % 2
         ];
     }
