@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,8 +24,8 @@ Route::post('/chat', [ChatController::class, 'start']);
 
 Route::get('/chat/{id}/details', [ChatController::class, 'details']);
 
-Route::get('/chat/{id}/messages', [ChatController::class, 'messages']);
-
-Route::post('/chat/{id}/message', [ChatController::class, 'message']);
-
 Route::put('/chat/{id}/close', [ChatController::class, 'close']);
+
+Route::get('/message/{chatid}', [MessageController::class, 'index']);
+
+Route::post('/message/store', [MessageController::class, 'store']);

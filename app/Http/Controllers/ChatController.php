@@ -42,18 +42,6 @@ class ChatController extends Controller
     }
 
     /**
-     * Get chat messages
-     *
-     * @param string $id
-     * @return JsonResponse
-     */
-    public function messages(string $id): JsonResponse
-    {
-        $messages = Message::where('chat_id', $id)->get();
-        return response()->json($messages, 200);
-    }
-
-    /**
      * Close Chat Session
      *
      * @param string $id
