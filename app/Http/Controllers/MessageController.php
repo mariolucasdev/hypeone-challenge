@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\channelChat;
+use App\Events\ChannelMessage;
 use App\Http\Requests\MessageStoreRequest;
 use App\Models\Message;
 use Illuminate\Http\JsonResponse;
@@ -17,12 +18,18 @@ class MessageController extends Controller
      * @param string $chatId
      * @return JsonResponse
      */
-    public function index(string $chatId): JsonResponse
+    public function index(int $chatId): JsonResponse
     {
         $messages = Message::where('chat_id', $chatId)->get();
 
         foreach ($messages as $message) {
-            broadcast(new channelChat($message->content, $message->username, $message->chat_id, $message->created_at));
+            broadcast(new ChannelMessage($message->chat_id, [
+                'content' => $message->content,
+                'username' => $message->username,
+                'createdAt' => $message->created_at
+            ]));
+
+            // broadcast(new ChannelMessage($message->content, $message->username, $message->chat_id, $message->created_at));
         }
 
         return response()->json($messages, 200);
@@ -40,7 +47,11 @@ class MessageController extends Controller
 
         $message = Message::create($request->all());
 
-        broadcast(new channelChat($request->content, $request->username, $request->chat_id, $message->created_at));
+        broadcast(new ChannelMessage($message->chat_id, [
+            'content' => $message->content,
+            'username' => $message->username,
+            'createdAt' => $message->created_at
+        ]));
 
         return response()->json($message, 201);
     }

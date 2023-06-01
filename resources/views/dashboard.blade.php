@@ -1,7 +1,7 @@
-<x-app-layout class="w-full fixed">
+<x-app-layout class="w-full static">
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Bem vindo(a)') }} {{ Auth::user()->name }}!
         </h2>
 
     </x-slot>

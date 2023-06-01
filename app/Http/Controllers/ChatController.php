@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\channelChat;
+use App\Events\ChannelChat;
+use App\Events\ChannelMessage;
 use App\Http\Requests\ChatStoreRequest;
 use App\Models\Chat;
 use App\Models\Message;
@@ -82,6 +83,9 @@ class ChatController extends Controller
             return response()->json($chat, 200);
         }
 
+        broadcast((new ChannelChat($chat->title, $chat->username, $chat->id, $chat->created_at))
+            ->broadcastWith('closed'));
+
         return response()->json(['error' => 'Chat não encontrado.'], 404);
     }
 
@@ -99,10 +103,16 @@ class ChatController extends Controller
         session()->put([
             'chat_id' => $chat->id,
             'title' => $chat->title,
-            'name' => $user->name
+            'username' => $user->name
         ]);
 
-        broadcast(new channelChat($chat->title, $user->name, $chat->id, $chat->created_at));
+        $data = [
+            'username' => 'Hypeone Chat:',
+            'content' => $user->name . ' entrou no chat.',
+            'createdAt' => date('Y-m-d H:i:s'),
+        ];
+
+        broadcast(new ChannelMessage($chat->id, $data));
 
         return response()->json($chat, 201);
     }
