@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\channelChat;
 use App\Events\ChannelMessage;
+use App\Events\SendMessage;
 use App\Http\Requests\MessageStoreRequest;
 use App\Models\Message;
 use Illuminate\Http\JsonResponse;
@@ -22,16 +23,6 @@ class MessageController extends Controller
     {
         $messages = Message::where('chat_id', $chatId)->get();
 
-        foreach ($messages as $message) {
-            broadcast(new ChannelMessage($message->chat_id, [
-                'content' => $message->content,
-                'username' => $message->username,
-                'createdAt' => $message->created_at
-            ]));
-
-            // broadcast(new ChannelMessage($message->content, $message->username, $message->chat_id, $message->created_at));
-        }
-
         return response()->json($messages, 200);
     }
 
@@ -47,11 +38,13 @@ class MessageController extends Controller
 
         $message = Message::create($request->all());
 
-        broadcast(new ChannelMessage($message->chat_id, [
-            'content' => $message->content,
-            'username' => $message->username,
-            'createdAt' => $message->created_at
-        ]));
+        broadcast(new SendMessage($message));
+
+        // broadcast(new ChannelMessage($message->chat_id, [
+        //     'content' => $message->content,
+        //     'username' => $message->username,
+        //     'createdAt' => $message->created_at
+        // ]));
 
         return response()->json($message, 201);
     }

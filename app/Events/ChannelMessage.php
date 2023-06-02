@@ -37,6 +37,11 @@ class ChannelMessage implements ShouldBroadcast
         $this->data = $data;
     }
 
+    /**
+     * Data to send
+     *
+     * @return array
+     */
     public function broadcastWith(): array
     {
         return [

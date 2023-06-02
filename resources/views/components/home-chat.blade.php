@@ -30,7 +30,7 @@
 
 <script>
     function joinChat(chatId) {
-        axios.put(`http://localhost:8000/api/chat/${chatId}/join`).then((response) => {
+        axios.get(`http://localhost:8000/api/chat/${chatId}/join`).then((response) => {
             window.location.reload(true);
         })
     }

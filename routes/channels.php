@@ -13,8 +13,19 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
+Broadcast::channel('chat.{chatId}', function () {
+    return true;
+});
+
 Broadcast::channel('chats.{chatId}', function () {
-    // return (int) $user->id === (int) $id;
+    return true;
+});
+
+Broadcast::channel('messages.{chatId}', function () {
+    return true;
+});
+
+Broadcast::channel('private-messages.{chatId}', function () {
     return true;
 });
 

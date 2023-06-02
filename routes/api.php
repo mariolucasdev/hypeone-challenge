@@ -28,7 +28,7 @@ Route::get('/chat/{id}/details', [ChatController::class, 'details']);
 
 Route::put('/chat/{id}/close', [ChatController::class, 'close']);
 
-Route::put('/chat/{id}/join', [ChatController::class, 'join']);
+Route::get('/chat/{id}/join', [ChatController::class, 'join']);
 
 Route::get('/message/{chatid}', [MessageController::class, 'index']);
 

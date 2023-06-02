@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Events\ChannelChat;
 use App\Events\ChannelMessage;
+use App\Events\CloseChat;
+use App\Events\SendMessage;
 use App\Http\Requests\ChatStoreRequest;
 use App\Models\Chat;
 use App\Models\Message;
@@ -40,10 +42,10 @@ class ChatController extends Controller
         $request->session()->put([
             'chat_id' => $chat->id,
             'title' => $chat->title,
-            'name' => $chat->username
+            'username' => $chat->username
         ]);
 
-        broadcast(new channelChat($chat->title, $chat->username, $chat->id, $chat->created_at));
+        broadcast(new ChannelChat($chat->title, $chat->username, $chat->id, $chat->created_at));
 
         return response()->json($chat, 201);
     }
@@ -73,6 +75,18 @@ class ChatController extends Controller
     public function close(string $id): JsonResponse
     {
         $chat = Chat::find($id);
+        $username = Auth::user()->name;
+
+        $message = (object) [
+            'chat_id' => $chat->id,
+            'username' => 'Hypeone Chat:',
+            'content' => $username . ' encerrou esse chat.',
+            'created_at' => date('Y-m-d H:i:s'),
+        ];
+
+        broadcast(new SendMessage($message))->toOthers();
+
+        broadcast(new CloseChat($id, $username))->toOthers();
 
         if ($chat) {
 
@@ -82,9 +96,6 @@ class ChatController extends Controller
 
             return response()->json($chat, 200);
         }
-
-        broadcast((new ChannelChat($chat->title, $chat->username, $chat->id, $chat->created_at))
-            ->broadcastWith('closed'));
 
         return response()->json(['error' => 'Chat não encontrado.'], 404);
     }
@@ -106,13 +117,14 @@ class ChatController extends Controller
             'username' => $user->name
         ]);
 
-        $data = [
+        $message = (object) [
             'username' => 'Hypeone Chat:',
             'content' => $user->name . ' entrou no chat.',
-            'createdAt' => date('Y-m-d H:i:s'),
+            'chat_id' => $chat->id,
+            'created_at' => date('Y-m-d H:i:s'),
         ];
 
-        broadcast(new ChannelMessage($chat->id, $data));
+        broadcast(new SendMessage($message));
 
         return response()->json($chat, 201);
     }

@@ -33,20 +33,28 @@
         const inputChatId = document.querySelector('#input-chat-id')
 
         const buttonSendMessage = document.querySelector('#button-send-message')
-        const buttonCloseChat = document.querySelector('#button-close-chat')
-        const formChatArea = document.querySelector('#button-close-chat')
+        var buttonCloseChat = document.querySelector('#button-close-chat')
+        var formChatArea = document.querySelector('#button-close-chat')
 
         buttonSendMessage.addEventListener('click', sendMessage);
         buttonCloseChat.addEventListener('click', closeChat);
 
         Echo.private(`chat.${inputChatId.value}`)
-            .listen('ChannelMessage', (e) => render(e))
+            .listen('.message.created', (e) => {
+                render(e)
+            })
+            .listen('.chat.closed', (e) => {
+                buttonCloseChat.hide();
+                formChatArea.hide();
+
+                // stateClosed()
+            })
+
         // .listen(`chats.${inputChatId.value}.closed`, (e) => {
         //     buttonCloseChat.hide()
         //     formChatArea.hide()
         //     console.log(e)
         // })
-
 
         // Echo.channel('chat')
         //     .listen('channelChat', (e) => {
