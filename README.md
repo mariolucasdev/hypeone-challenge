@@ -1,66 +1,157 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Hypeone Desafio Técnico
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+O objetivo deste desafio é a criação de uma API de atendimento simples
+com a possibilidade de troca de mensagens entre dois usuários em
+modelo de conversa, que deve conter backend utilizando PHP (com ou
+sem framework, nos usamos Laravel). Esta API deve ser capaz de iniciar
+e encerrar sessões de chat, registrar e ler as mensagens.
 
-## About Laravel
+# Roadmap
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   Login/Cadastro
+-   Cadastrar ou entrar em chat.
+-   Troca de mensagens entre usuários.
+-   Persistência de chats e mensagens no banco de dados.
+-   Finalizar Chat;
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Instalação
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Renomeio o arquivo .env.example para .env
 
-## Learning Laravel
+### Instale as dependências do back-end
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```php
+composer install
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Instale as dependências do Front-end Javascript
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```js
+npm install
+```
 
-## Laravel Sponsors
+### Execute as migrations
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+php artisan migrate
+```
 
-### Premium Partners
+### Execute os seeders
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```
+php artisan db:seed
+```
 
-## Contributing
+### Migrations e seeders de uma só vez
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+php artisan migrate --seed
+```
 
-## Code of Conduct
+# Inicie os Serviços
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Serviço de filas:
 
-## Security Vulnerabilities
+```
+php artisan queue:listen
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Serviço de websocket:
 
-## License
+```
+php artisan websocket:serve
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Front-end
+
+```
+npm run dev
+```
+
+Back-end
+
+```
+php artisan serve
+```
+
+# Usando
+
+-   Abra o navegar em http://127.0.0.1:8000
+-   No momento da seeders foram cadastrados 02 usuários que poderão ser usados para logar.
+    ```
+    Mário Lucas
+    usuário: mario@hypeone.com.br
+    senha: password
+    ```
+    ```
+    Michele
+    usuário: michele@hypeone.com.br
+    senha: password
+    ```
+-   Para o segundo usuário é recomendado que o login seja feito através de outro navegador ou mesmo de uma guia anônima.
+-   É possível entrar em um chat existente ou cadastrar um novo chat com título.
+-   Depois é só interagir até um dos 02 encerrar o chat.
+
+# Documentação da API
+
+## Chats
+
+| Método | Endpoint               | Parâmetros                    | Descrição                                | Retorno                |
+| ------ | ---------------------- | ----------------------------- | ---------------------------------------- | ---------------------- |
+| `GET`  | api/chats              | ---                           | Busca lista de chats ativos.             | 200                    |
+| `GET`  | chat/:chatId/details   | ---                           | Retorna informações de detalhes do chat. | sucesso: 200 erro: 404 |
+| `POST` | api/chat               | string username, string title | Inicia um novo chat.                     | sucesso: 201 erro: 422 |
+| `PUT`  | api/chat/:chatId/close | string username               | Finaliza um chat, retornas seus dados.   | sucesso: 200 erro: 404 |
+
+## Mensagens
+
+| Método | Endpoint            | Parâmetros                                   | Descrição                             | Retorno                |
+| ------ | ------------------- | -------------------------------------------- | ------------------------------------- | ---------------------- |
+| `GET`  | api/message/:chatId | ---                                          | Retorna lista de mensages de um chat. | 200                    |
+| `POST` | api/message/store   | int chat_id, string content, string username | Cadastra uma mensagem.                | sucesso: 201 erro: 422 |
+
+# Testes
+
+Para execução dos testes use o comando:
+
+```
+php artisan test
+```
+
+## Tests Chat
+
+![#c5f015] PASS Tests\Feature\ChatTest
+
+-   **✓** shold create a new chat expect code 201 0.89s
+-   **✓** shold receive error 302 becouse missed param 0.06s
+-   **✓** close chat expected code 200 0.09s
+-   **✓** shold receive error 404 becouse chat not exists 0.08s
+-   **✓** shold get chat details expect code 200 0.06s
+-   **✓** shold get chat details expect code correctly json structure 0.07s
+-   **✓** shold fail becouse chat not exists expect 404 code
+
+## Tests Message
+
+![#c5f015] PASS Tests\Feature\MessageTest
+
+-   **✓** shold get chat messages expect code 200 0.11s
+-   **✓** shold create a new message
+
+Tests: 9 passed (21 assertions)
+Duration: 2.06s
+
+## Extras
+Para simulção de requisições basta importar o arquivos **insomnia-requests.json**
+
+1. Abra o Insomnia REST Client.
+2. Clique em **New Document**, selecione Importar / Exportar.
+3. Na aba Dados , selecione Importar Dados > Do Arquivo.
+4. Clique em Importar.
+
+## Considerações
+Agradeço desde já a oportunidade da empresa Hypeone de participar desses desafio.
+
+Depois dessa documentação, caso ainda fiquem dúvidas, estou à inteira disposição.
+
+## Desenvolvido por Mário Lucas
+mariolucasdev@gmail.com
