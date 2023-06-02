@@ -1,6 +1,3 @@
-<script>
-
-</script>
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
     <div class="bg-white h-full py-6 overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900 flex">
@@ -29,9 +26,9 @@
 </div>
 
 <script>
-    function joinChat(chatId) {
-        axios.get(`http://localhost:8000/api/chat/${chatId}/join`).then((response) => {
-            window.location.reload(true);
+    async function joinChat(chatId) {
+        await axios.get(`http://localhost:8000/api/chat/${chatId}/join`).then((response) => {
+            return window.location.reload(true);
         })
     }
 
