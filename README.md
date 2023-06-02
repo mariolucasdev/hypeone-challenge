@@ -94,6 +94,8 @@ php artisan serve
 
 # Documentação da API
 
+Obsevação: Inclua no header das requisições os seguinte parâmetros: **Content-Type: application/json** e ** Accept: application/json**  para evitar redirecionamentos inesperados por parte do tratamento de requests no backend. Caso use o arquivo de importação que deixei no repositório, já está tudo montado, é só testar.
+
 ## Chats
 
 | Método | Endpoint               | Parâmetros                    | Descrição                                | Retorno                |
