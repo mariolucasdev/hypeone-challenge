@@ -16,7 +16,7 @@ class MessageController extends Controller
     /**
      * Get chat messages
      *
-     * @param string $chatId
+     * @param int $chatId
      * @return JsonResponse
      */
     public function index(int $chatId): JsonResponse
@@ -39,12 +39,6 @@ class MessageController extends Controller
         $message = Message::create($request->all());
 
         broadcast(new SendMessage($message));
-
-        // broadcast(new ChannelMessage($message->chat_id, [
-        //     'content' => $message->content,
-        //     'username' => $message->username,
-        //     'createdAt' => $message->created_at
-        // ]));
 
         return response()->json($message, 201);
     }
