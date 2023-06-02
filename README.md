@@ -16,7 +16,7 @@ e encerrar sessões de chat, registrar e ler as mensagens.
 
 # Instalação
 
-### Renomeio o arquivo .env.example para .env
+### Renomeie o arquivo .env.example para .env
 
 ### Instale as dependências do back-end
 
@@ -24,7 +24,7 @@ e encerrar sessões de chat, registrar e ler as mensagens.
 composer install
 ```
 
-### Instale as dependências do Front-end Javascript
+### Instale as dependências do Front-end
 
 ```js
 npm install
@@ -121,14 +121,13 @@ php artisan test
 ## Tests Chat
 
 ![#c5f015] PASS Tests\Feature\ChatTest
-
--   **✓** shold create a new chat expect code 201 0.89s
--   **✓** shold receive error 302 becouse missed param 0.06s
--   **✓** close chat expected code 200 0.09s
--   **✓** shold receive error 404 becouse chat not exists 0.08s
--   **✓** shold get chat details expect code 200 0.06s
--   **✓** shold get chat details expect code correctly json structure 0.07s
--   **✓** shold fail becouse chat not exists expect 404 code
+**✓** *shold create a new chat expect code 201 0.89s*
+**✓** *shold receive error 302 becouse missed param 0.06s*
+**✓** *close chat expected code 200 0.09s*
+**✓** *shold receive error 404 becouse chat not exists 0.08s*
+**✓** *shold get chat details expect code 200 0.06s*
+**✓** *shold get chat details expect code correctly json structure 0.07s*
+**✓** *shold fail becouse chat not exists expect 404 code*
 
 ## Tests Message
 
