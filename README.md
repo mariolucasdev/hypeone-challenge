@@ -122,22 +122,28 @@ php artisan test
 
 ![#c5f015] PASS Tests\Feature\ChatTest
 **✓** *shold create a new chat expect code 201 0.89s*
+
 **✓** *shold receive error 302 becouse missed param 0.06s*
+
 **✓** *close chat expected code 200 0.09s*
+
 **✓** *shold receive error 404 becouse chat not exists 0.08s*
+
 **✓** *shold get chat details expect code 200 0.06s*
+
 **✓** *shold get chat details expect code correctly json structure 0.07s*
+
 **✓** *shold fail becouse chat not exists expect 404 code*
 
 ## Tests Message
 
 ![#c5f015] PASS Tests\Feature\MessageTest
 
--   **✓** shold get chat messages expect code 200 0.11s
--   **✓** shold create a new message
+**✓** *shold get chat messages expect code 200 0.11s*
 
-Tests: 9 passed (21 assertions)
-Duration: 2.06s
+**✓** *shold create a new message*
+
+Tests: 9 passed (21 assertions) Duration: 2.06s
 
 ## Extras
 Para simulção de requisições basta importar o arquivos **insomnia-requests.json**
