@@ -34,7 +34,7 @@
 
         const buttonSendMessage = document.querySelector('#button-send-message')
         var buttonCloseChat = document.querySelector('#button-close-chat')
-        var formChatArea = document.querySelector('#button-close-chat')
+        var formChatArea = document.querySelector('#form-area')
 
         buttonSendMessage.addEventListener('click', sendMessage);
         buttonCloseChat.addEventListener('click', closeChat);
@@ -43,30 +43,12 @@
             .listen('.message.created', (e) => {
                 render(e)
             })
-            .listen('.chat.closed', (e) => {
-                buttonCloseChat.hide();
-                formChatArea.hide();
+            .listen('.chat.closed', () => closeAction())
 
-                // stateClosed()
-            })
-
-        // .listen(`chats.${inputChatId.value}.closed`, (e) => {
-        //     buttonCloseChat.hide()
-        //     formChatArea.hide()
-        //     console.log(e)
-        // })
-
-        // Echo.channel('chat')
-        //     .listen('channelChat', (e) => {
-
-        //         if (e.user == inputUsername.value) {
-        //             chat.innerHTML += `<span class="float-right mt-5 font-semibold text-gray-500">${e.user}</span> <div my-3 class='w-full float-right bg-indigo-600 text-indigo-200 rounded-md text-right p-3'> ${e.message} </div>`
-        //         } else {
-        //             chat.innerHTML += `<span class="float-left mt-5 font-semibold text-gray-500">${e.user}</span>
-        //                                 <div my-3 class='w-full float-left bg-indigo-100 text-indigo-600 rounded-md text-left p-3'> ${e.message} </div>`
-        //         }
-        //         window.scrollTo(0, document.body.scrollHeight);
-        //     });
+        function closeAction() {
+            buttonCloseChat.textContent = "Sair do Chat"
+            formChatArea.style.visibility = "hidden"
+        }
 
         function render(message) {
             if (message.username == inputUsername.value) {
@@ -77,6 +59,16 @@
             }
 
             window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        async function checkChatStatus() {
+            await axios.get(`http://localhost:8000/api/chat/${inputChatId.value}/details`).then(response => {
+                if (response.status == 200) {
+                    if (response.data.closed) {
+                        closeAction()
+                    }
+                }
+            });
         }
 
         async function getMessages() {
@@ -112,5 +104,6 @@
         }
 
         getMessages();
+        checkChatStatus();
     })
 </script>

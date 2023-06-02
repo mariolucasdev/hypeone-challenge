@@ -84,15 +84,12 @@ class ChatController extends Controller
             'created_at' => date('Y-m-d H:i:s'),
         ];
 
-        broadcast(new SendMessage($message))->toOthers();
-
-        broadcast(new CloseChat($id, $username))->toOthers();
-
         if ($chat) {
-
             $chat->update(['closed' => true]);
-
             session()->forget(['chat_id', 'title', 'name']);
+
+            broadcast(new SendMessage($message))->toOthers();
+            broadcast(new CloseChat($id))->toOthers();
 
             return response()->json($chat, 200);
         }
