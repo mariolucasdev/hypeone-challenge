@@ -72,10 +72,10 @@ class ChatController extends Controller
      * @param string $id
      * @return JsonResponse
      */
-    public function close(string $id): JsonResponse
+    public function close(string $id, Request $request): JsonResponse
     {
         $chat = Chat::findOrFail($id);
-        $username = Auth::user()->name;
+        $username = $request->name;
 
         $message = (object) [
             'chat_id' => $chat->id,

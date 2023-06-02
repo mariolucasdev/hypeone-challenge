@@ -96,7 +96,9 @@
         }
 
         function closeChat() {
-            axios.put(`http://localhost:8000/api/chat/${inputChatId.value}/close`).then((response) => {
+            axios.put(`http://localhost:8000/api/chat/${inputChatId.value}/close`, {
+                name: inputUsername.value
+            }).then((response) => {
                 if (response.status == 200) {
                     window.location.reload(true);
                 }

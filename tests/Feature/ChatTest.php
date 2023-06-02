@@ -46,7 +46,9 @@ class ChatTest extends TestCase
     {
         Auth::loginUsingId(1);
 
-        $response = $this->put('/api/chat/2/close');
+        $response = $this->put('/api/chat/2/close', [
+            "name" =>  "Mário Lucas"
+        ]);
         $response->assertStatus(200);
     }
 
