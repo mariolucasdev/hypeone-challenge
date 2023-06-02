@@ -6,6 +6,8 @@ modelo de conversa, que deve conter backend utilizando PHP (com ou
 sem framework, nos usamos Laravel). Esta API deve ser capaz de iniciar
 e encerrar sessões de chat, registrar e ler as mensagens.
 
+![2023-06-02 08-19-31](https://github.com/mariolucasdev/hypeone-challenge/assets/14020978/b63b3fac-0836-419c-9ac9-e9350817321f)
+
 # Roadmap
 
 -   Login/Cadastro
