@@ -74,7 +74,7 @@ class ChatController extends Controller
      */
     public function close(string $id): JsonResponse
     {
-        $chat = Chat::find($id);
+        $chat = Chat::findOrFail($id);
         $username = Auth::user()->name;
 
         $message = (object) [
@@ -89,7 +89,7 @@ class ChatController extends Controller
             session()->forget(['chat_id', 'title', 'name']);
 
             broadcast(new SendMessage($message))->toOthers();
-            broadcast(new CloseChat($id))->toOthers();
+            broadcast(new CloseChat($chat->id))->toOthers();
 
             return response()->json($chat, 200);
         }
